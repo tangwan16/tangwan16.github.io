@@ -14,26 +14,9 @@
     font-family: 'UnidreamLED';
   }
   [data-theme="dark"] div#runtime {
-    color: #28b4c8;
+    color: #a9e1ea;
     box-shadow: 0 0 5px rgba(28,69,218,0.71);
     animation: flashlight 1s linear infinite alternate;
-  }
-  /*悬停显示徽标提示语*/
-  a.github-badge:hover:before {
-    position: fixed;
-    width: fit-content;
-    margin: auto;
-    left: 0;
-    right: 0;
-    top: 10%;
-    border-radius: 10px;
-    text-align: center;
-    z-index: 100;
-    content: attr(data-title);
-    font-size: 20px;
-    color: #fff;
-    padding: 10px;
-    background-color: var(--text-bg-hover);
   }
   [data-theme=dark] a.github-badge:hover:before {
     background-color: rgba(18,18,18,0.8);
