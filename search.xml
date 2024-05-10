@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>第四天_第二章_链表part02</title>
+      <link href="/2024/05/10/%E7%AC%AC%E5%9B%9B%E5%A4%A9_%E7%AC%AC%E4%BA%8C%E7%AB%A0%20_%E9%93%BE%E8%A1%A8part02/"/>
+      <url>/2024/05/10/%E7%AC%AC%E5%9B%9B%E5%A4%A9_%E7%AC%AC%E4%BA%8C%E7%AB%A0%20_%E9%93%BE%E8%A1%A8part02/</url>
+      
+        <content type="html"><![CDATA[<p><a href="https://leetcode.cn/problems/swap-nodes-in-pairs/description/">24.两两交换链表中的节点</a><a href="">链接</a><br>题目复述：对于一个链表中元素，从链表的头到链表的尾两个一组，交换他们的位置，不是值<br>例如 A-&gt;B 变为B-&gt;A<br>自己看到的这道题的第一想法，<br><img src="https://cdn.nlark.com/yuque/0/2024/jpeg/38972033/1715344560984-81f8155d-b3bc-48ed-86c4-482aa9ee16a4.jpeg#averageHue=%23a6a9ab&clientId=u475b57bf-13d0-4&from=paste&height=4352&id=uf4d972c6&originHeight=4080&originWidth=3060&originalType=binary&ratio=1.25&rotation=90&showTitle=false&size=2214089&status=done&style=none&taskId=u6d539707-cfc6-453a-b0db-4d6ba0da1b9&title=&width=3264" alt="IMG_20240510_203524.jpg"><br>遍历原链表，如果元素的次序为奇数，添加到奇链表的尾部。如果元素的次序为偶数，添加到偶链表的尾部。</p><p>这样，题目中的原链表就相当于先从奇链表取一个，偶链表取一个，重复步骤。<br>而题目中要求的新链表就是先从偶链表取一个，再从奇链表取一个，重复步骤<br>代码如下，花了我快一个半小时，主要是忘记不同的链表起始是共用一个元素节点了，且共用一个next了，还是就是不能对nullptr的进行操作，这种边界问题</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="attr">public</span>:</span><br><span class="line">    <span class="title class_">ListNode</span>* <span class="title function_">swapPairs</span>(<span class="params">ListNode* head</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span>(head==nullptr||head-&gt;next==nullptr) <span class="keyword">return</span> head;</span><br><span class="line">        <span class="title class_">ListNode</span>*headA=head;</span><br><span class="line">        <span class="title class_">ListNode</span>*headB=head-&gt;next;</span><br><span class="line">        <span class="title class_">ListNode</span>* tempA = headA,*tempB = headB,*temp;</span><br><span class="line">        <span class="title class_">ListNode</span>*res,*temp_res; </span><br><span class="line">        int count=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(head-&gt;next!=nullptr)&#123;</span><br><span class="line">            <span class="keyword">if</span>(count%<span class="number">2</span>==<span class="number">1</span>) &#123;</span><br><span class="line">                head=head-&gt;next;</span><br><span class="line">                tempA-&gt;next=head-&gt;next;</span><br><span class="line">                tempA=tempA-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                head = head-&gt;next;</span><br><span class="line">                tempB-&gt;next=head-&gt;next;</span><br><span class="line">                tempB=tempB-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(tempA!=nullptr)tempA=nullptr;</span><br><span class="line">        <span class="keyword">if</span>(tempB!=nullptr)tempB=nullptr;</span><br><span class="line">        res = headB;</span><br><span class="line"></span><br><span class="line">        temp_res =res;</span><br><span class="line">        count=<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">while</span>(headA!=nullptr&amp;&amp;headB!=nullptr)&#123;</span><br><span class="line">            <span class="keyword">if</span>(count%<span class="number">2</span>==<span class="number">1</span>)&#123;</span><br><span class="line">                <span class="keyword">if</span>(headB-&gt;next!=nullptr) headB= headB-&gt;next;</span><br><span class="line">                <span class="keyword">else</span> headB =nullptr;</span><br><span class="line">                temp_res-&gt;next = headA;</span><br><span class="line">                temp_res=temp_res-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>(headA-&gt;next!=nullptr) headA= headA-&gt;next;</span><br><span class="line">                <span class="keyword">else</span> headA =nullptr;</span><br><span class="line">                temp_res-&gt;next = headB;</span><br><span class="line">                temp_res=temp_res-&gt;next;</span><br><span class="line">            &#125;</span><br><span class="line">            count++;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> res;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><p>运行结果：<br><img src="https://cdn.nlark.com/yuque/0/2024/png/38972033/1715348985685-85cf1e31-6efb-46a9-a92a-51d44518c41c.png#averageHue=%23f6f6f6&clientId=u475b57bf-13d0-4&from=paste&height=102&id=ua8935d7a&originHeight=128&originWidth=740&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=14142&status=done&style=none&taskId=u904d7403-a885-4f9f-b707-a179d66cb1b&title=&width=592" alt="image.png"><br>遗留问题：加不加下面的代码，用时有很大不同，有空继续探究</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(tempA!=nullptr)tempA=nullptr;</span><br><span class="line"><span class="keyword">if</span>(tempB!=nullptr)tempB=nullptr;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 编程学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 算法 链表 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Numpy练习50</title>
       <link href="/2024/04/13/numpy%20%E7%BB%83%E4%B9%A050/"/>
       <url>/2024/04/13/numpy%20%E7%BB%83%E4%B9%A050/</url>
@@ -354,6 +379,28 @@
     
     
     <entry>
+      <title></title>
+      <link href="/css/runtime.css"/>
+      <url>/css/runtime.css</url>
+      
+        <content type="html"><![CDATA[/*电子钟字体*/@font-face {    font-family: 'UnidreamLED';    src: url(/font/UnidreamLED.ttf);    font-display: auto;  }  div#runtime {    width: 180px;    margin: auto;    color: #fff;    padding-inline: 5px;    border-radius: 10px;    background-color: rgba(0,0,0,0.7);    font-family: 'UnidreamLED';  }  [data-theme="dark"] div#runtime {    color: #a9e1ea;    box-shadow: 0 0 5px rgba(28,69,218,0.71);    animation: flashlight 1s linear infinite alternate;  }  [data-theme=dark] a.github-badge:hover:before {    background-color: rgba(18,18,18,0.8);  }  @-moz-keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }  @-webkit-keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }  @-o-keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }  @keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title></title>
+      <link href="/css/universe.css"/>
+      <url>/css/universe.css</url>
+      
+        <content type="html"><![CDATA[/* 背景宇宙星光  */#universe{    display: block;    position: fixed;    margin: 0;    padding: 0;    border: 0;    outline: 0;    left: 0;    top: 0;    width: 100%;    height: 100%;    pointer-events: none;    /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */    z-index: -1;  }]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>gallery</title>
       <link href="/gallery/index.html"/>
       <url>/gallery/index.html</url>
@@ -377,28 +424,6 @@
     
     <entry>
       <title></title>
-      <link href="/css/universe.css"/>
-      <url>/css/universe.css</url>
-      
-        <content type="html"><![CDATA[/* 背景宇宙星光  */#universe{    display: block;    position: fixed;    margin: 0;    padding: 0;    border: 0;    outline: 0;    left: 0;    top: 0;    width: 100%;    height: 100%;    pointer-events: none;    /* 这个是调置顶的优先级的，-1在文章页下面，背景上面，个人推荐这种 */    z-index: -1;  }]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
-      <link href="/css/runtime.css"/>
-      <url>/css/runtime.css</url>
-      
-        <content type="html"><![CDATA[/*电子钟字体*/@font-face {    font-family: 'UnidreamLED';    src: url(/font/UnidreamLED.ttf);    font-display: auto;  }  div#runtime {    width: 180px;    margin: auto;    color: #fff;    padding-inline: 5px;    border-radius: 10px;    background-color: rgba(0,0,0,0.7);    font-family: 'UnidreamLED';  }  [data-theme="dark"] div#runtime {    color: #a9e1ea;    box-shadow: 0 0 5px rgba(28,69,218,0.71);    animation: flashlight 1s linear infinite alternate;  }  [data-theme=dark] a.github-badge:hover:before {    background-color: rgba(18,18,18,0.8);  }  @-moz-keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }  @-webkit-keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }  @-o-keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }  @keyframes flashlight {    from {      box-shadow: 0 0 5px #1478d2;    }    to {      box-shadow: 0 0 2px #1478d2;    }  }]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title></title>
       <link href="/js/cursor.js"/>
       <url>/js/cursor.js</url>
       
@@ -409,11 +434,11 @@
     
     
     <entry>
-      <title></title>
-      <link href="/js/runtime.js"/>
-      <url>/js/runtime.js</url>
+      <title>link</title>
+      <link href="/link/index.html"/>
+      <url>/link/index.html</url>
       
-        <content type="html"><![CDATA[setInterval(() => {    let create_time = Math.round(new Date('2024-03-10 00:00:00').getTime() / 1000); //在此行修改建站时间    let timestamp = Math.round((new Date().getTime()) / 1000);    let second = timestamp - create_time;    let time = new Array(0, 0, 0, 0, 0);      var nol = function(h){      return h>9?h:'0'+h;    }    if (second >= 24 * 3600) {      time[1] = parseInt(second / (24 * 3600));      second %= 24 * 3600;    }    if (second >= 3600) {      time[2] = nol(parseInt(second / 3600));      second %= 3600;    }    if (second >= 60) {      time[3] = nol(parseInt(second / 60));      second %= 60;    }    if (second > 0) {      time[4] = nol(second);    }      currentTimeHtml =`<img class='boardsign' src= 'https://img.shields.io/badge/不晚-科研摸鱼中-6adea8?style=social&logo=data%3Aimage%2Fjpeg%3Bbase64%2CUklGRjQKAABXRUJQVlA4TCgKAAAvP8APEBWHgrZtJIc%2F7O0eCBExAVC1QCNKhdNvStr%2BKZKUf9kY7u6uESnt3l0RiVfhbqOX4PQZmsUF%2Fjt8LHAI9ATOzt0drmB7d2fP3kmWdYJc4bLjJDyxHp5Hbm1tjqRsMpsFYkQEJICPpTV4uNJbrbXe7VL%2FV%2F%2F3118FgQHJtt22TRuFkmwTHyQApncXEUjZ%2F3Yydpk650iWZNu0Ldu2bePZVuv%2BwLPt1ovXtW39gL157Xts2%2Bds4y4IbttIkmRojj3dNV2FvEGOA0COpHzJYTJvzlu8h%2B497%2F1Ndw%2F7dqar1s0H5gd4opqIJ%2FCRC%2FkEXyBskc8%2FEHFpc0IXr0hbIiwROcmBALBl9OKz2SzJrLNt276fOYwkt20FcYR%2FEASYSUcnAgCoSSORl3BI1smkfQD9BNF5g0PlI%2FMNm%2BDu7u5%2BDtxGUqTMeuFw8RPtlXNCe%2BUcj6b0X3utt10KVzyooKwOSdL2oRSuw8GPUkQsZxy5nIMZy%2FpKwOS5wrszAXAIYDJIdJ7hmQuAFQAG%2BNryqCZHeHfFIwDz5xw9ycCMz%2Bk9yQ0y4UdeEFNELDcs5nKWmBHEFAG%2BWjZ5TpBN%2FMTnRCJKEbGOo1Y7Dxy3ZwczZeSwzUWNeK6ICC4OKsjIhM5y1M7evSbdHLQboK5zyeBi7LMJT4SBCC4y4eJM8lzggL1333XOUVfDwOmqja1NNZ8IA8HF8HWoMyFNCFXvfsM56gooFRA1b%2FshvxMq0J5hyaHb3uZ6ux1gt5a5VBX0pxOjuRo2XSU9b7eB7NZS2J%2FIBamCjvm6E56320B2ayl8ccBEEbRcXvWm5%2B02kN1aCp%2BImogccOhwhPnF%2B%2FmVArvPy24thc5NocI6VguGA5Xdx223lpIucTNysKDiUL6TqzUCQtFztw5J5AhBR4jWIYnh7kQqjNC5uVpGFOKOwhR0UMm0zLsfP3%2B1drdYFpjIEViXShDYnUETqZNI3HSZECcRe1OL2QfCEQ9ZIlGHBL0n%2BtLa3fJIEjNRNMDejo9aUWdOCJWQv03RCoBlx0konHK0QAWWTemILSJKQczwbjETmW1WlvshGD8VxZvB73cCo73RHJCHEPkAtTl0vHdo7LRmuuWvLEdqSFGmRBRN%2FLGBB8hMhtkALwYBF4Wcv10GLZImVg4yVpwAB5PLMYPk7qAxuhWgKCyLyRFPHidxsTd2xt7UsmR7HJaz4dDLvvjVkToKkZOfD4%2BmuIlvJgJZtYwc3e4dMr1dbAjFn68Abyg58CAf9od5ty3eGodF1SXbY3POku20a%2FHOIH4uRbUC6GrZ9TyiFOXvCC6RoduZ9f3%2FJ4l8A5XIyGUfVTvmITiC0xF%2FkBXyrpXLTtUcHEld31%2B8k3YgDqndP%2FZ0AS%2FZToRkVW2rKgBENHQ7S5EL95ujbkuyfWTodv73e5ENQbVjSRAnQB55ZN0%2FiKTbaZe4eo86W0KLdwa%2FsFrIG43QxGGyIjKpFZLtQ3Jz0vAQwlwjcgivm8YAS7ZT%2BJizPJaa%2BtyjiMOX98nUTelcYhI5%2FDLDZ24MrixV870lvgh2czLwLA4WhpuMS74IXV71zIes1WLBEQP81BplF0I4c3fyHHW6gJOmQee%2BvQkRY69DpJuQX2GkQk6OBvmwHqfqaNdUDrVYdVZEAheiB6GL0vYFJverqFvxCFnbdmYhNixcCA87dTe5WAQdjXLO%2FURHW44iZNhN6QoTqO%2Bo0xW8eGdkVqzfYAoHmq6yKs8SAmkVhdh%2Fvsn9qqp2PQWfZSyhuOUopVt%2BvTyexNsXIqS3Gyix19%2BnRKImk67QDalaT94f8Py2QB%2Fseu95JGIIZe4JJ5jazaJu%2BRn4j6QozxuDhhx%2FftYvwPj2JmUHxzd1Na0iyjs9bhI59jz%2FOev7tVZm4rBz3VKEAeSoVVxwebUY3fJ7AOlmZaEDTQszq5l%2BDVFX8WXNuUtF7ggHmupmapngQCRkUphzHPHjuzEZeAmf9DAHxmM389hpjx%2Ff7ui%2BXHYL4bPE1Z1hy4h8%2FH3s9637vtadu%2FEnSiNuskvHWNFrg5TLq1mzzAFRnC86h4QQdCsAVm3qmcvaNXJm7LR2AsbFx%2B2eeryI2GuAuqpu0p27LHMvE%2F78ZVAzcjmXPYPpyHvMZQOhgSoBLNkKeapWzUiD8eV%2FHNyrnLuHfBhz2R2OcMF00Kerqk4b4IcvHc8SCw2oallwInFyeTnrzfaPRczym3z0gfx57gcVsQRrZapTljf6jbNCruPrzTbYF6yqlQt7iGyPH9a6%2Bf55FmGd%2B4MifC07XPRY6P3RpyvJMZfLP0FF9avFa%2BnHwSkTNv18Flcd2EcOPphJDpjqsASRRZjaE03OCKARM4iDPSqqp26OcyPg6Rkw1BZMcMDEAdEkjxRgwgdRhGOZw4F7HCwo8ALXHHhmOjE6lgs2KFUSqRLiJkpdVRzsV1A8fSNJEwrh8kRN2LSpdqTp6BQYntUyyiprH5O9hAV8bIdagEoy4R4OoHe2BRO3j7HgA00UdBglb1Xp1B9klSp3guzpG4MmZQk4XS69YEwZnwmAb%2FyZBWD8hAZQmwN720WGmZxzqlKGrU4%2FJiF55kYKDlUxOk3kfoRmix5k7%2BjqOQENSSZLIb1dI73RBp27Xlpf4ZkbSZx94EmjRI0jYg9Gvw15NvNHVLmOVv1i0JHe6JlasRAqL%2Bic0k%2Fqxpik0C%2FJITXbji%2FxTdlCq8pUiZtrX7%2Bd3MGf4Q1ss1in0w1zoi3FUHnBKTujpGZdqLHzC7nVbu1v6F79Dj%2FQTatKVNU01D0Fpp%2Fx5%2F8plHqKjBZ0pDf%2BgNHku7UnZKv2hrfczWABpGxc13IeiRMs3k7EJmVtKKW0ODs38c%2FJndoLvF%2B%2FnSHDKNoNUFeCiF1PXuf0YsPTtv2te4O2ltRaMKUaYIAaHBwQ75Ccp9Pre6TU5aUNbC3Z8fqpv%2BjsBfRHpdaaOKiLi7MTS3kEePqk%2FdUCMJZKfZd6mh8XFMZvMTBova%2B%2FvnFeq7kQt2Q7sZuWjdbg6zVxdr3tdV0hEcwfmvT%2Fx%2FUWap8WyOTrr9fT%2FKSQ4L0MLBijZZNd0tSYMeqBwYDsyguIX5oFcy99dXN%2B8MX1MaC7zV2A8bjA3Hn9JcaKwFCBRWt3vn%2FdmR9egfVGoBtNXcq3L7CfO8H8gUmwYMH8Dky%2FKfD%2FIro729uOWJ7s%2F8K%2Fng3mb%2B%2FWW5ZvWs%2BdwCi9RC%2FQSbB4CR5ViEcs993d%2BQGs7Mz2XYigvR3M34A5qbW8A%2FS3wnbuBPZTOmulU%2FU8%2FwbGQdDfTETEzvxwdeXK7vxwBRGxWd7SG9O8r57m3zXppGpZAuOM7dy5CsxtZQmMCDAcoK6pFUfraX7ZmHYX511tN23%2FcpWOcjqLI7ZyZXe2R5WKuz2jtNb1Zh3QLwPjFVig64Dhz9fmBeDcUXju1HXpzI%2BRlSuvkrvY9yso3rVy5XMFxaJ1jn30l9%2Bd7W9054ebv58N9rYLAg%3D%3D' title='距离百年老店也就差不到一百年~'> \      <div style ='font-size: 13px; font-weight: bold'> \      本站居然运行了${time[1]}天${time[2]}小时${time[3]}分${time[4]}秒  \        <i id="heartbeat" class='fas fa-heartbeat' style='color:red'> </i> \      </div>`;     document.getElementById("workboard").innerHTML = currentTimeHtml;  }, 1000);]]></content>
+        <content type="html"><![CDATA[]]></content>
       
     </entry>
     
@@ -432,10 +457,10 @@
     
     <entry>
       <title></title>
-      <link href="/js/universe.js"/>
-      <url>/js/universe.js</url>
+      <link href="/js/runtime.js"/>
+      <url>/js/runtime.js</url>
       
-        <content type="html"><![CDATA[function dark() {window.requestAnimationFrame=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;var n,e,i,h,t=.05,s=document.getElementById("universe"),o=!0,a="180,184,240",r="226,225,142",d="226,225,224",c=[];function f(){n=window.innerWidth,e=window.innerHeight,i=.216*n,s.setAttribute("width",n),s.setAttribute("height",e)}function u(){h.clearRect(0,0,n,e);for(var t=c.length,i=0;i<t;i++){var s=c[i];s.move(),s.fadeIn(),s.fadeOut(),s.draw()}}function y(){this.reset=function(){this.giant=m(3),this.comet=!this.giant&&!o&&m(10),this.x=l(0,n-10),this.y=l(0,e),this.r=l(1.1,2.6),this.dx=l(t,6*t)+(this.comet+1-1)*t*l(50,120)+2*t,this.dy=-l(t,6*t)-(this.comet+1-1)*t*l(50,120),this.fadingOut=null,this.fadingIn=!0,this.opacity=0,this.opacityTresh=l(.2,1-.4*(this.comet+1-1)),this.do=l(5e-4,.002)+.001*(this.comet+1-1)},this.fadeIn=function(){this.fadingIn&&(this.fadingIn=!(this.opacity>this.opacityTresh),this.opacity+=this.do)},this.fadeOut=function(){this.fadingOut&&(this.fadingOut=!(this.opacity<0),this.opacity-=this.do/2,(this.x>n||this.y<0)&&(this.fadingOut=!1,this.reset()))},this.draw=function(){if(h.beginPath(),this.giant)h.fillStyle="rgba("+a+","+this.opacity+")",h.arc(this.x,this.y,2,0,2*Math.PI,!1);else if(this.comet){h.fillStyle="rgba("+d+","+this.opacity+")",h.arc(this.x,this.y,1.5,0,2*Math.PI,!1);for(var t=0;t<30;t++)h.fillStyle="rgba("+d+","+(this.opacity-this.opacity/20*t)+")",h.rect(this.x-this.dx/4*t,this.y-this.dy/4*t-2,2,2),h.fill()}else h.fillStyle="rgba("+r+","+this.opacity+")",h.rect(this.x,this.y,this.r,this.r);h.closePath(),h.fill()},this.move=function(){this.x+=this.dx,this.y+=this.dy,!1===this.fadingOut&&this.reset(),(this.x>n-n/4||this.y<0)&&(this.fadingOut=!0)},setTimeout(function(){o=!1},50)}function m(t){return Math.floor(1e3*Math.random())+1<10*t}function l(t,i){return Math.random()*(i-t)+t}f(),window.addEventListener("resize",f,!1),function(){h=s.getContext("2d");for(var t=0;t<i;t++)c[t]=new y,c[t].reset();u()}(),function t(){document.getElementsByTagName('html')[0].getAttribute('data-theme')=='dark'&&u(),window.requestAnimationFrame(t)}()};dark()]]></content>
+        <content type="html"><![CDATA[setInterval(() => {    let create_time = Math.round(new Date('2024-03-10 00:00:00').getTime() / 1000); //在此行修改建站时间    let timestamp = Math.round((new Date().getTime()) / 1000);    let second = timestamp - create_time;    let time = new Array(0, 0, 0, 0, 0);      var nol = function(h){      return h>9?h:'0'+h;    }    if (second >= 24 * 3600) {      time[1] = parseInt(second / (24 * 3600));      second %= 24 * 3600;    }    if (second >= 3600) {      time[2] = nol(parseInt(second / 3600));      second %= 3600;    }    if (second >= 60) {      time[3] = nol(parseInt(second / 60));      second %= 60;    }    if (second > 0) {      time[4] = nol(second);    }      currentTimeHtml =`<img class='boardsign' src= 'https://img.shields.io/badge/不晚-科研摸鱼中-6adea8?style=social&logo=data%3Aimage%2Fjpeg%3Bbase64%2CUklGRjQKAABXRUJQVlA4TCgKAAAvP8APEBWHgrZtJIc%2F7O0eCBExAVC1QCNKhdNvStr%2BKZKUf9kY7u6uESnt3l0RiVfhbqOX4PQZmsUF%2Fjt8LHAI9ATOzt0drmB7d2fP3kmWdYJc4bLjJDyxHp5Hbm1tjqRsMpsFYkQEJICPpTV4uNJbrbXe7VL%2FV%2F%2F3118FgQHJtt22TRuFkmwTHyQApncXEUjZ%2F3Yydpk650iWZNu0Ldu2bePZVuv%2BwLPt1ovXtW39gL157Xts2%2Bds4y4IbttIkmRojj3dNV2FvEGOA0COpHzJYTJvzlu8h%2B497%2F1Ndw%2F7dqar1s0H5gd4opqIJ%2FCRC%2FkEXyBskc8%2FEHFpc0IXr0hbIiwROcmBALBl9OKz2SzJrLNt276fOYwkt20FcYR%2FEASYSUcnAgCoSSORl3BI1smkfQD9BNF5g0PlI%2FMNm%2BDu7u5%2BDtxGUqTMeuFw8RPtlXNCe%2BUcj6b0X3utt10KVzyooKwOSdL2oRSuw8GPUkQsZxy5nIMZy%2FpKwOS5wrszAXAIYDJIdJ7hmQuAFQAG%2BNryqCZHeHfFIwDz5xw9ycCMz%2Bk9yQ0y4UdeEFNELDcs5nKWmBHEFAG%2BWjZ5TpBN%2FMTnRCJKEbGOo1Y7Dxy3ZwczZeSwzUWNeK6ICC4OKsjIhM5y1M7evSbdHLQboK5zyeBi7LMJT4SBCC4y4eJM8lzggL1333XOUVfDwOmqja1NNZ8IA8HF8HWoMyFNCFXvfsM56gooFRA1b%2FshvxMq0J5hyaHb3uZ6ux1gt5a5VBX0pxOjuRo2XSU9b7eB7NZS2J%2FIBamCjvm6E56320B2ayl8ccBEEbRcXvWm5%2B02kN1aCp%2BImogccOhwhPnF%2B%2FmVArvPy24thc5NocI6VguGA5Xdx223lpIucTNysKDiUL6TqzUCQtFztw5J5AhBR4jWIYnh7kQqjNC5uVpGFOKOwhR0UMm0zLsfP3%2B1drdYFpjIEViXShDYnUETqZNI3HSZECcRe1OL2QfCEQ9ZIlGHBL0n%2BtLa3fJIEjNRNMDejo9aUWdOCJWQv03RCoBlx0konHK0QAWWTemILSJKQczwbjETmW1WlvshGD8VxZvB73cCo73RHJCHEPkAtTl0vHdo7LRmuuWvLEdqSFGmRBRN%2FLGBB8hMhtkALwYBF4Wcv10GLZImVg4yVpwAB5PLMYPk7qAxuhWgKCyLyRFPHidxsTd2xt7UsmR7HJaz4dDLvvjVkToKkZOfD4%2BmuIlvJgJZtYwc3e4dMr1dbAjFn68Abyg58CAf9od5ty3eGodF1SXbY3POku20a%2FHOIH4uRbUC6GrZ9TyiFOXvCC6RoduZ9f3%2FJ4l8A5XIyGUfVTvmITiC0xF%2FkBXyrpXLTtUcHEld31%2B8k3YgDqndP%2FZ0AS%2FZToRkVW2rKgBENHQ7S5EL95ujbkuyfWTodv73e5ENQbVjSRAnQB55ZN0%2FiKTbaZe4eo86W0KLdwa%2FsFrIG43QxGGyIjKpFZLtQ3Jz0vAQwlwjcgivm8YAS7ZT%2BJizPJaa%2BtyjiMOX98nUTelcYhI5%2FDLDZ24MrixV870lvgh2czLwLA4WhpuMS74IXV71zIes1WLBEQP81BplF0I4c3fyHHW6gJOmQee%2BvQkRY69DpJuQX2GkQk6OBvmwHqfqaNdUDrVYdVZEAheiB6GL0vYFJverqFvxCFnbdmYhNixcCA87dTe5WAQdjXLO%2FURHW44iZNhN6QoTqO%2Bo0xW8eGdkVqzfYAoHmq6yKs8SAmkVhdh%2Fvsn9qqp2PQWfZSyhuOUopVt%2BvTyexNsXIqS3Gyix19%2BnRKImk67QDalaT94f8Py2QB%2Fseu95JGIIZe4JJ5jazaJu%2BRn4j6QozxuDhhx%2FftYvwPj2JmUHxzd1Na0iyjs9bhI59jz%2FOev7tVZm4rBz3VKEAeSoVVxwebUY3fJ7AOlmZaEDTQszq5l%2BDVFX8WXNuUtF7ggHmupmapngQCRkUphzHPHjuzEZeAmf9DAHxmM389hpjx%2Ff7ui%2BXHYL4bPE1Z1hy4h8%2FH3s9637vtadu%2FEnSiNuskvHWNFrg5TLq1mzzAFRnC86h4QQdCsAVm3qmcvaNXJm7LR2AsbFx%2B2eeryI2GuAuqpu0p27LHMvE%2F78ZVAzcjmXPYPpyHvMZQOhgSoBLNkKeapWzUiD8eV%2FHNyrnLuHfBhz2R2OcMF00Kerqk4b4IcvHc8SCw2oallwInFyeTnrzfaPRczym3z0gfx57gcVsQRrZapTljf6jbNCruPrzTbYF6yqlQt7iGyPH9a6%2Bf55FmGd%2B4MifC07XPRY6P3RpyvJMZfLP0FF9avFa%2BnHwSkTNv18Flcd2EcOPphJDpjqsASRRZjaE03OCKARM4iDPSqqp26OcyPg6Rkw1BZMcMDEAdEkjxRgwgdRhGOZw4F7HCwo8ALXHHhmOjE6lgs2KFUSqRLiJkpdVRzsV1A8fSNJEwrh8kRN2LSpdqTp6BQYntUyyiprH5O9hAV8bIdagEoy4R4OoHe2BRO3j7HgA00UdBglb1Xp1B9klSp3guzpG4MmZQk4XS69YEwZnwmAb%2FyZBWD8hAZQmwN720WGmZxzqlKGrU4%2FJiF55kYKDlUxOk3kfoRmix5k7%2BjqOQENSSZLIb1dI73RBp27Xlpf4ZkbSZx94EmjRI0jYg9Gvw15NvNHVLmOVv1i0JHe6JlasRAqL%2Bic0k%2Fqxpik0C%2FJITXbji%2FxTdlCq8pUiZtrX7%2Bd3MGf4Q1ss1in0w1zoi3FUHnBKTujpGZdqLHzC7nVbu1v6F79Dj%2FQTatKVNU01D0Fpp%2Fx5%2F8plHqKjBZ0pDf%2BgNHku7UnZKv2hrfczWABpGxc13IeiRMs3k7EJmVtKKW0ODs38c%2FJndoLvF%2B%2FnSHDKNoNUFeCiF1PXuf0YsPTtv2te4O2ltRaMKUaYIAaHBwQ75Ccp9Pre6TU5aUNbC3Z8fqpv%2BjsBfRHpdaaOKiLi7MTS3kEePqk%2FdUCMJZKfZd6mh8XFMZvMTBova%2B%2FvnFeq7kQt2Q7sZuWjdbg6zVxdr3tdV0hEcwfmvT%2Fx%2FUWap8WyOTrr9fT%2FKSQ4L0MLBijZZNd0tSYMeqBwYDsyguIX5oFcy99dXN%2B8MX1MaC7zV2A8bjA3Hn9JcaKwFCBRWt3vn%2FdmR9egfVGoBtNXcq3L7CfO8H8gUmwYMH8Dky%2FKfD%2FIro729uOWJ7s%2F8K%2Fng3mb%2B%2FWW5ZvWs%2BdwCi9RC%2FQSbB4CR5ViEcs993d%2BQGs7Mz2XYigvR3M34A5qbW8A%2FS3wnbuBPZTOmulU%2FU8%2FwbGQdDfTETEzvxwdeXK7vxwBRGxWd7SG9O8r57m3zXppGpZAuOM7dy5CsxtZQmMCDAcoK6pFUfraX7ZmHYX511tN23%2FcpWOcjqLI7ZyZXe2R5WKuz2jtNb1Zh3QLwPjFVig64Dhz9fmBeDcUXju1HXpzI%2BRlSuvkrvY9yso3rVy5XMFxaJ1jn30l9%2Bd7W9054ebv58N9rYLAg%3D%3D' title='距离百年老店也就差不到一百年~'> \      <div style ='font-size: 13px; font-weight: bold'> \      本站居然运行了${time[1]}天${time[2]}小时${time[3]}分${time[4]}秒  \        <i id="heartbeat" class='fas fa-heartbeat' style='color:red'> </i> \      </div>`;     document.getElementById("workboard").innerHTML = currentTimeHtml;  }, 1000);]]></content>
       
     </entry>
     
@@ -453,9 +478,20 @@
     
     
     <entry>
-      <title>link</title>
-      <link href="/link/index.html"/>
-      <url>/link/index.html</url>
+      <title></title>
+      <link href="/js/universe.js"/>
+      <url>/js/universe.js</url>
+      
+        <content type="html"><![CDATA[function dark() {window.requestAnimationFrame=window.requestAnimationFrame||window.mozRequestAnimationFrame||window.webkitRequestAnimationFrame||window.msRequestAnimationFrame;var n,e,i,h,t=.05,s=document.getElementById("universe"),o=!0,a="180,184,240",r="226,225,142",d="226,225,224",c=[];function f(){n=window.innerWidth,e=window.innerHeight,i=.216*n,s.setAttribute("width",n),s.setAttribute("height",e)}function u(){h.clearRect(0,0,n,e);for(var t=c.length,i=0;i<t;i++){var s=c[i];s.move(),s.fadeIn(),s.fadeOut(),s.draw()}}function y(){this.reset=function(){this.giant=m(3),this.comet=!this.giant&&!o&&m(10),this.x=l(0,n-10),this.y=l(0,e),this.r=l(1.1,2.6),this.dx=l(t,6*t)+(this.comet+1-1)*t*l(50,120)+2*t,this.dy=-l(t,6*t)-(this.comet+1-1)*t*l(50,120),this.fadingOut=null,this.fadingIn=!0,this.opacity=0,this.opacityTresh=l(.2,1-.4*(this.comet+1-1)),this.do=l(5e-4,.002)+.001*(this.comet+1-1)},this.fadeIn=function(){this.fadingIn&&(this.fadingIn=!(this.opacity>this.opacityTresh),this.opacity+=this.do)},this.fadeOut=function(){this.fadingOut&&(this.fadingOut=!(this.opacity<0),this.opacity-=this.do/2,(this.x>n||this.y<0)&&(this.fadingOut=!1,this.reset()))},this.draw=function(){if(h.beginPath(),this.giant)h.fillStyle="rgba("+a+","+this.opacity+")",h.arc(this.x,this.y,2,0,2*Math.PI,!1);else if(this.comet){h.fillStyle="rgba("+d+","+this.opacity+")",h.arc(this.x,this.y,1.5,0,2*Math.PI,!1);for(var t=0;t<30;t++)h.fillStyle="rgba("+d+","+(this.opacity-this.opacity/20*t)+")",h.rect(this.x-this.dx/4*t,this.y-this.dy/4*t-2,2,2),h.fill()}else h.fillStyle="rgba("+r+","+this.opacity+")",h.rect(this.x,this.y,this.r,this.r);h.closePath(),h.fill()},this.move=function(){this.x+=this.dx,this.y+=this.dy,!1===this.fadingOut&&this.reset(),(this.x>n-n/4||this.y<0)&&(this.fadingOut=!0)},setTimeout(function(){o=!1},50)}function m(t){return Math.floor(1e3*Math.random())+1<10*t}function l(t,i){return Math.random()*(i-t)+t}f(),window.addEventListener("resize",f,!1),function(){h=s.getContext("2d");for(var t=0;t<i;t++)c[t]=new y,c[t].reset();u()}(),function t(){document.getElementsByTagName('html')[0].getAttribute('data-theme')=='dark'&&u(),window.requestAnimationFrame(t)}()};dark()]]></content>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>标签</title>
+      <link href="/tags/index.html"/>
+      <url>/tags/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -467,17 +503,6 @@
       <title>music</title>
       <link href="/music/index.html"/>
       <url>/music/index.html</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>标签</title>
-      <link href="/tags/index.html"/>
-      <url>/tags/index.html</url>
       
         <content type="html"><![CDATA[]]></content>
       
