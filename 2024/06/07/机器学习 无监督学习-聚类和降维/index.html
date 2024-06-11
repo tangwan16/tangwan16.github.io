@@ -1,0 +1,456 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>机器学习 聚类和降维 | buwan</title><meta name="author" content="buwan"><meta name="copyright" content="buwan"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="无监督学习概述监督学习和无监督学习的区别监督学习：训练集有标签y，目标是找到能够区分正样本和负样本的决策边界，需要据此拟合一个假设函数无监督学习：训练集没有标签y，主要分为聚类、降维、关联规则、推荐系统等方面 主要的无监督学习方法聚类如何将教室里的学生按爱好、身高划分为5类？ 降维如何将将原高维空间中的数据点映射到低维度的空间中关联规则     很多买尿布的男顾客，同时买了啤酒，可以从中找出什么规">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习 聚类和降维">
+<meta property="og:url" content="http://www.tangwan16.cn/2024/06/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-%E8%81%9A%E7%B1%BB%E5%92%8C%E9%99%8D%E7%BB%B4/index.html">
+<meta property="og:site_name" content="buwan">
+<meta property="og:description" content="无监督学习概述监督学习和无监督学习的区别监督学习：训练集有标签y，目标是找到能够区分正样本和负样本的决策边界，需要据此拟合一个假设函数无监督学习：训练集没有标签y，主要分为聚类、降维、关联规则、推荐系统等方面 主要的无监督学习方法聚类如何将教室里的学生按爱好、身高划分为5类？ 降维如何将将原高维空间中的数据点映射到低维度的空间中关联规则     很多买尿布的男顾客，同时买了啤酒，可以从中找出什么规">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img33.jpg">
+<meta property="article:published_time" content="2024-06-06T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-06-11T14:01:36.545Z">
+<meta property="article:author" content="buwan">
+<meta property="article:tag" content="机器学习 聚类 降维">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img33.jpg"><link rel="shortcut icon" href="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/web.jpg"><link rel="canonical" href="http://www.tangwan16.cn/2024/06/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-%E8%81%9A%E7%B1%BB%E5%92%8C%E9%99%8D%E7%BB%B4/index.html"><link rel="preconnect" href="//cdnjs.cloudflare.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: {"limitDay":365,"position":"top","messagePrev":"It has been","messageNext":"days since the last update, the content of the article may be outdated."},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: buwan","link":"链接: ","source":"来源: buwan","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体中文","cht_to_chs":"你已切换为简体中文","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#1f1f1f","position":"top-left"},
+  infinitegrid: {
+    js: 'https://cdnjs.cloudflare.com/ajax/libs/egjs-infinitegrid/4.11.1/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '机器学习 聚类和降维',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-06-11 22:01:36'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-double-row-display@1.00/cardlistpost.min.css"/>
+<style>#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags:before {content:"\A";
+  white-space: pre;}#recent-posts > .recent-post-item >.recent-post-info > .article-meta-wrap > .tags > .article-meta__separator{display:none}</style>
+<link rel="stylesheet" href="/css/runtime.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/font-awesome-animation.min.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/tag_plugins.css" media="defer" onload="this.media='all'"><script src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/assets/carousel-touch.js"></script><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.1.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (true) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/avatar.jpg" onerror="onerror=null;src='null'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-fangwu"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fangwu"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><i class="fa-fw icon-shijianzhou"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><i class="fa-fw icon-tags"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-tags"></use></svg><span> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/comments/"><i class="fa-fw icon-pinglun"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-pinglun"></use></svg><span> 留言板</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><i class="fa-fw icon-fenlei"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei"></use></svg><span> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><i class="fa-fw icon-guidang"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 友链</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-about"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-about"></use></svg><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img33.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="buwan"><img class="site-icon" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/web.jpg"/><span class="site-name">buwan</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i></a></div><div class="menus_items"><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/"><i class="fa-fw icon-fangwu"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fangwu"></use></svg><span> 首页</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/archives/"><i class="fa-fw icon-shijianzhou"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-shijianzhou"></use></svg><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/tags/"><i class="fa-fw icon-tags"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-tags"></use></svg><span> 标签</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/comments/"><i class="fa-fw icon-pinglun"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-pinglun"></use></svg><span> 留言板</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/categories/"><i class="fa-fw icon-fenlei"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-fenlei"></use></svg><span> 分类</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/link/"><i class="fa-fw icon-guidang"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-guidang"></use></svg><span> 友链</span></a></div><div class="menus_item"><a class="site-page faa-parent animated-hover" href="/about/"><i class="fa-fw icon-about"></i><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-about"></use></svg><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">机器学习 聚类和降维</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon fas fa-history"></i><span class="post-meta-label">更新于</span><time datetime="2024-06-11T14:01:36.545Z" title="更新于 2024-06-11 22:01:36">2024-06-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">5k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>17分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="机器学习 聚类和降维"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="无监督学习概述"><a href="#无监督学习概述" class="headerlink" title="无监督学习概述"></a>无监督学习概述</h2><h3 id="监督学习和无监督学习的区别"><a href="#监督学习和无监督学习的区别" class="headerlink" title="监督学习和无监督学习的区别"></a>监督学习和无监督学习的区别</h3><p>监督学习：<strong>训练集有标签y</strong>，目标是找到能够区分正样本和负样本的决策边界，需要据此拟合一个假设函数<br>无监督学习：<strong>训练集没有标签y</strong>，主要分为聚类、降维、关联规则、推荐系统等方面</p>
+<h3 id="主要的无监督学习方法"><a href="#主要的无监督学习方法" class="headerlink" title="主要的无监督学习方法"></a>主要的无监督学习方法</h3><p>聚类<br>如何将教室里的学生按爱好、身高划分为5类？<br> 降维<br>如何将将原高维空间中的数据点映射到低维度的空间中<br>关联规则<br>     很多买尿布的男顾客，同时买了啤酒，可以从中找出什么规律来提高超市销售额？<br>推荐系统<br>     很多客户经常上网购物，根据他们的浏览商品的习惯，给他们推荐什么商品呢？</p>
+<h4 id="聚类"><a href="#聚类" class="headerlink" title="聚类"></a>聚类</h4><p>主要算法<br>K-means、密度聚类、层次聚类</p>
+<h2 id="K-means聚类"><a href="#K-means聚类" class="headerlink" title="K-means聚类"></a>K-means聚类</h2><h3 id="聚类的背景知识"><a href="#聚类的背景知识" class="headerlink" title="聚类的背景知识"></a>聚类的背景知识</h3><p>基本思想<br>图中的数据可以分成三个分开的点集(称为簇)，一个能够分出这些点集的算法，被称为聚类算法<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036570.png" alt=""></p>
+<h3 id="K-means算法概述"><a href="#K-means算法概述" class="headerlink" title="K-means算法概述"></a>K-means算法概述</h3><p>K-means是无监督学习方法，最普及的聚类算法，将没有标签的数据聚类成不同的组<br>K-means算法是一个迭代过程。<br>数据集被分组为若干个预定义的不重叠的聚类或子组，使簇内部点尽可能相似，簇在不同的空间。<br>将数据点分配给簇，以便<strong>簇的质心和数据点之间的平方距离之和最小</strong>，在这个位置，簇的质心是簇中数据点的算术平均值。</p>
+<p>距离度量<br>闵可夫斯基距离<br>$d(x,y)=\left(\sum_i|x_i-y_i|^p\right)^{\frac{1}{p}}$<br>p=1为曼哈顿距离<br>p=2为欧式距离<br>p取无穷时极限情况下，得到切比雪夫距离</p>
+<h3 id="K-means算法流程"><a href="#K-means算法流程" class="headerlink" title="K-means算法流程"></a>K-means算法流程</h3><p>1 选择K个点作为初始质心(K小于训练数据点的数目)。<br>2 将每个点指派到最近的质心，形成K个簇。（计算数据点与质心的距离）<br>3 对于上一步聚类的结果，进行平均计算，得出该类的新的聚类中心。（移动质心）<br>4 重复上述两步/直到迭代结束：质心不发生变化。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036571.png" alt=""></p>
+<p>K-means的代价函数(Distortion function 畸变函数)：</p>
+<script type="math/tex; mode=display">J(c^{(1)},\ldots,c^{(m)},\mu_{1},\ldots,\mu_{K})=\frac{1}{m}\sum_{i=1}^{m}\left\|X^{(i)}-\mu_{c^{(i)}}\right\|^{2} \\
+\text{其中}\mu_{c^{(i)}}\text{代表与}x^{(i)}\text{最近的聚类中心点。}</script><p>$\{x^{(1)},x^{(2)},x^{(3)},…,x^{(m)}\}$为训练集<br>$C=\{C_{1},C_{2},\cdots,C_{K}\}$簇划分<br>$\mu_{1},\mu_{2},\ldots,\mu_{K}$聚类中心</p>
+<p>K-means优化过程<br>每个簇的样本数目为N1，N2….Nk<br>$J(\mu_{1},\mu_{2},\cdots\mu_{k})=\frac{1}{2}\sum_{j=1}^{K}\sum_{i=1}^{N_{j}}(x_{i}-\mu_{j})^{2}$<br>$\frac{\partial J}{\partial\mu_{j}}=-\sum_{i=1}^{N_{j}}(x_{i}-\mu_{j})\stackrel{\text{令}}{\rightarrow}0\Rightarrow\mu_{j}=\frac{1}{N_{j}}\sum_{i=1}^{N_{j}}x_{i}$<br>注意：该K-means可以根据簇在第一步中的初始化方式给出<strong>不同的结果。</strong></p>
+<h3 id="K值的选择"><a href="#K值的选择" class="headerlink" title="K值的选择"></a>K值的选择</h3><p>找到簇的数量，通过”肘部法则”进行计算<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036572.png" alt=""><br>K-means的一个问题：<br>它有可能停留在一个局部极小值处，而这取决于初始化的情况。<br>为了解决这个问题，需要<strong>多次运行K-menas算法</strong>，每一次都重新进行随机初始化，最后再比较多次运行K-均值的结果，<strong>选择代价函数最小的结果</strong></p>
+<h3 id="K-means的优缺点"><a href="#K-means的优缺点" class="headerlink" title="K-means的优缺点"></a><strong>K-means的优缺点</strong></h3><p>优点<br>原理比较简单，容易实现，收敛速度快<br>聚类效果较优<br>算法的可解释度比较强<br>主要需要调参的参数仅仅是簇数K</p>
+<p>缺点<br>需要预先指定<strong>簇的数量</strong><br>如果有两个<strong>高度重叠</strong>的数据，那么它就不能被区分，也不能判断有两个簇<br> 无法处理分类变量：K均值算法是<strong>基于数值的</strong>，因此无法直接处理分类变量<br>有时<strong>随机选择质心</strong>并不能带来理想的结果<br> 无法处理<strong>异常值和噪声数据</strong>；<br> 不适用于非线性数据集；<br> 对特征尺度敏感；<br> 如果遇到<strong>非常大的数据集</strong>，那么计算机可能会崩溃。 </p>
+<h2 id="密度聚类与层次聚类"><a href="#密度聚类与层次聚类" class="headerlink" title="密度聚类与层次聚类"></a>密度聚类与层次聚类</h2><h3 id="密度聚类-DBSCAN"><a href="#密度聚类-DBSCAN" class="headerlink" title="密度聚类-DBSCAN"></a>密度聚类-DBSCAN</h3><h4 id="DBSCAN概述"><a href="#DBSCAN概述" class="headerlink" title="DBSCAN概述"></a>DBSCAN概述</h4><p>如果S中任两点的连线内的点都在集合S中，那么集合S称为凸集，否则为非凸集<br>DBSCAN(Density-Based  Spatial Clustering of Applications with Noise)基于密度的聚类算法。<br><strong>密度：</strong>空间中任意一点的密度是以该点为圆心，以<strong>扫描半径</strong>构成的圆区域内包含的点数目<br>DBSCAN将簇定义为密度相连的点的最大集合，能够把具<strong>有足够高密度的区域划分为簇</strong>，并可<strong>在噪声的空间数据库中发现任意形状的聚类</strong></p>
+<h4 id="DBSCAN使用两个超参数"><a href="#DBSCAN使用两个超参数" class="headerlink" title="DBSCAN使用两个超参数"></a>DBSCAN使用<strong>两个超参数</strong></h4><p>扫描半径(eps)和最小包含点数(minPts)来获得簇的数量，而不是猜测簇的数目。<br>扫描半径(eps):<br>用于定位点/检查任何点附近密度的距离度量，即扫描半径<br> 最小包含点数(minPts):<br>聚集在一起的最小点数（阈值），该区域被认为是稠密的。 </p>
+<h4 id="DBSCAN的三类数据点"><a href="#DBSCAN的三类数据点" class="headerlink" title="DBSCAN的三类数据点"></a>DBSCAN的三类数据点</h4><p>核心点：在半径Eps内包含超过MinPts数目的点<br>边界点：在半径Eps内点的数量小于MinPts，但是落在核心点的邻域内的点。<br>噪声点：既不是核心点也不是边界点的点。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036573.png" alt=""></p>
+<h4 id="DBSCAN密度聚类的算法流程"><a href="#DBSCAN密度聚类的算法流程" class="headerlink" title="DBSCAN密度聚类的算法流程"></a>DBSCAN密度聚类的算法流程</h4><p>1.将所有点标记为核心点、边界点或噪声点；<br>2 如果选择的点是<strong>核心点</strong>，则<strong>找出所有从该点出发的密度可达对象形成簇；</strong></p>
+<ol>
+<li>如果该点是<strong>非核心点</strong>，将其<strong>指派到一个与之关联的核心点的簇中；</strong> </li>
+<li>重复以上步骤，直到所点都被处理过 </li>
+</ol>
+<p>对每个点计算其邻域Eps=3内点的集合。<br>集合内点的个数超过MinPts=3的点为核心点。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036576.png" alt=""></p>
+<h4 id="DBSCAN的超参数"><a href="#DBSCAN的超参数" class="headerlink" title="DBSCAN的超参数"></a>DBSCAN的超参数</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036577.png" alt=""></p>
+<h3 id="层次聚类"><a href="#层次聚类" class="headerlink" title="层次聚类"></a>层次聚类</h3><p>层次聚类假设簇之间存在<strong>层次结构</strong>，将样本聚到层次化的簇中<br>层次聚类又有<strong>聚合聚类(自下而上)、分裂聚类(自上而下)</strong>两种方法<br>每一个样本只属于一个簇，层次聚类属于<strong>硬聚类</strong><br>背景知识：如果一个聚类方法假定一个样本只能属于一个簇，或簇的交集为空集，那么该方法称为<strong>硬聚类方法</strong>。如果一个样本可以属于多个簇，或簇的交集不为空集，那么该方法称为<strong>软聚类</strong>方法。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036578.png" alt=""></p>
+<h4 id="聚合聚类"><a href="#聚合聚类" class="headerlink" title="聚合聚类"></a>聚合聚类</h4><p>开始将每个样本<strong>各自分到一个簇；</strong><br>之后将<strong>相距最近的两簇合并</strong>，建立一个新的簇；<br>重复操作直到满足停止条件；<br>得到层次化的类别。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102039042.png" alt=""></p>
+<h4 id="分裂聚类"><a href="#分裂聚类" class="headerlink" title="分裂聚类"></a>分裂聚类</h4><p>开始将所有样本分到一个簇<br>之后将已有类中<strong>相距最远的样本分到两个新的簇</strong><br>重复此操作直到满足停止条件；<br>得到层次化的类别。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036580.png" alt=""><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036581.png" alt=""></p>
+<h2 id="聚类的评价指标"><a href="#聚类的评价指标" class="headerlink" title="聚类的评价指标"></a>聚类的评价指标</h2><h4 id="均一性"><a href="#均一性" class="headerlink" title="均一性"></a>均一性</h4><p>每个聚簇中正确分类的样本数占该聚簇总样本数的比例和，类似于精确率，一个簇中只包含一个类别的样本，则满足均一性。<br>$p=\frac{1}{k}\sum_{i=1}^{k}\frac{N(C_{i}==K_{i}))}{N(K_{i})}$</p>
+<h4 id="完整性"><a href="#完整性" class="headerlink" title="完整性"></a>完整性</h4><p>每个聚簇中正确分类的样本数占该类型的总样本数比例的和，类似于召回率，同类别样本被归类到相同簇中，则满足完整性<br>$r=\frac{1}{k}\sum_{i=1}^{k}\frac{N(C_{i}==K_{i})\big)}{N(C_{i})}$</p>
+<h4 id="V-measure"><a href="#V-measure" class="headerlink" title="V-measure"></a>V-measure</h4><p>均一性和完整性的加权平均<br>$V=\frac{(1+\beta^2)\times pr}{\beta^2\times p+r}$</p>
+<h4 id="轮廓系数"><a href="#轮廓系数" class="headerlink" title="轮廓系数"></a>轮廓系数</h4><p>簇内不相似度a(i)<br>计算样本i到同簇其他样本的平均距离为a(i)，应尽可能小。<br>簇间不相似度b(i)<br>计算样本i到其他簇Cj的所有样本的平均距离b(ij)，应尽可能大。<br>轮廓系数s(i)<br>$s(i)=\frac{b(i)-a(i)}{max\{a(i),b(i)\}}$<br>越接近1表示样本i聚类越合理。<br>越接近-1，表示样本i应该分类到另外的簇中。<br>近似为0，表示样本i应该在边界上;<br>聚类结果的轮廓系数：所有样本的s(i)的均值<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036582.png" alt=""><br>调整兰德系数(ARI,Adjusted Rnd Index)<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036583.png" alt=""></p>
+<h2 id="降维概述"><a href="#降维概述" class="headerlink" title="降维概述"></a>降维概述</h2><h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="维数灾难"><a href="#维数灾难" class="headerlink" title="维数灾难"></a>维数灾难</h4><p>指在涉及到向量的计算的问题中，随着维数的增加，计算量指数倍增长的现象。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036584.png" alt=""><br>维度太大也会导致机器学习性能的下降，并不是特征维度越大越好，模型的性能会随着特征的增加先上升后下降。</p>
+<h4 id="什么是降维"><a href="#什么是降维" class="headerlink" title="什么是降维"></a>什么是降维</h4><p>降维是将训练数据中的样本(实例)<strong>从高维空间转化到低维空间</strong>，<strong>不存在完全无损的降维。</strong><br>降维是通过对原始数据的线性变换实现的</p>
+<h4 id="为什么要降维"><a href="#为什么要降维" class="headerlink" title="为什么要降维"></a>为什么要降维</h4><p>高维数据增加了运算的难度。<br>高维使得学习算法的泛化能力变弱(例如，在最近邻分类器中，样本复杂度随着维度成指数增长)，维度越高，算法的搜索难度和成本就越大。<br>降维能够增加数据的可读性，利于发掘数据的有意义的结构。</p>
+<h4 id="降维的主要作用"><a href="#降维的主要作用" class="headerlink" title="降维的主要作用"></a>降维的主要作用</h4><p>减少冗余特征，降低数据维度<br>数据可视化</p>
+<p>减少冗余特征</p>
+<p>x1：厘米表示的身高，x2：英寸表示的身高<br>表示的内容相同，可以减少数据到一维。</p>
+<p>很多数据具有<strong>线性关系</strong>，<strong>具有线性关系的特征很多都是冗余特征</strong>，去掉冗余特征对机器学习的计算结果不会有影响</p>
+<h3 id="数据可视化"><a href="#数据可视化" class="headerlink" title="数据可视化"></a>数据可视化</h3><h4 id="t-SNE-t-distributed-Stochatstic-Neighbor-Embedding"><a href="#t-SNE-t-distributed-Stochatstic-Neighbor-Embedding" class="headerlink" title="t-SNE(t-distributed Stochatstic Neighbor Embedding)"></a>t-SNE(t-distributed Stochatstic Neighbor Embedding)</h4><p>t-SNE将数据点之间的相似度转化为概率。原始空间中的相似度由高斯联合概率表示，嵌入空间的相似度由”学生t分布”表示<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036585.png" alt=""><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036586.png" alt=""><br>t-SNE适合准确的可视化样本间的相似度关系，<strong>t-SNE主要关注数据的内部结构</strong></p>
+<h4 id="拥挤现象"><a href="#拥挤现象" class="headerlink" title="拥挤现象"></a>拥挤现象</h4><p>用PCA降维会进行可视化，会出现所谓的“拥挤现象”<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036587.png" alt=""></p>
+<h4 id="t-SNE算法缺点"><a href="#t-SNE算法缺点" class="headerlink" title="t-SNE算法缺点"></a>t-SNE算法缺点</h4><h5 id="只能可视化，不用于数据转换"><a href="#只能可视化，不用于数据转换" class="headerlink" title="只能可视化，不用于数据转换"></a>只能可视化，不用于数据转换</h5><p>t-SNE只能由高维数据集产生低维数据集，这种关系式多对多的。<br>额外添加一个数据，t-SNE不能像PCA那样给出新数据在低维空间下的坐标。</p>
+<h5 id="过于高维一般不直接使用"><a href="#过于高维一般不直接使用" class="headerlink" title="过于高维一般不直接使用"></a>过于高维一般不直接使用</h5><p>t-SNE算法中，当数据维数过高时，计算量很大。所以一般来说，会先用PCA降维到10维左右，再使用t-SNE降维到2或3维空间进行可视化。</p>
+<h3 id="降维的优缺点"><a href="#降维的优缺点" class="headerlink" title="降维的优缺点"></a>降维的优缺点</h3><p>降维的优点<br>数据集存储所需的<strong>空间</strong>也相应减少，减少了特征维数所需的计算训练<strong>时间</strong>；<br>助于快速<strong>可视化数据</strong>；<br>通过处理多重共线性<strong>消除冗余特征</strong></p>
+<p>降维的缺点<br>降维可能会丢失一些数据<br>在主成分分析(PCA)降维技术中，有时需要考虑多少主成分是难以确定的，往往使用经验法则。 </p>
+<h2 id="SVD-奇异值分解"><a href="#SVD-奇异值分解" class="headerlink" title="SVD(奇异值分解)"></a>SVD(奇异值分解)</h2><h3 id="基本概念-1"><a href="#基本概念-1" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="SVD概述"><a href="#SVD概述" class="headerlink" title="SVD概述"></a>SVD概述</h4><p>奇异值分解(SVD)，可用于降维算法中的特征分解 ，用于推免系统，自然语言处理<br>SVD将一个矩阵A分解为三个矩阵的乘积：<br>一个正交矩阵U<br>一个对角矩阵E<br>一个正交矩阵V的转置</p>
+<p>定义矩阵A的SVD为<br>$A=U\Sigma V^\mathrm{T}$<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036588.png" alt=""></p>
+<p>$A=U\Sigma V^\mathrm{T}=u_1\sigma_1v_1^\mathrm{T}+\cdots+u_r\sigma_rv_r^\mathrm{T}$<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036589.png" alt=""></p>
+<h4 id="SVD求解"><a href="#SVD求解" class="headerlink" title="SVD求解"></a>SVD求解</h4><h5 id="U-矩阵求解"><a href="#U-矩阵求解" class="headerlink" title="$U$矩阵求解"></a>$U$矩阵求解</h5><p>方阵$(AA^\mathrm{T})$为$m\times m$的一个方阵，进行特征分解，得到的特征值和特征向量满足下式<br>$AA^\mathrm{T}u_i=\lambda_iu_i$<br>得到矩阵$(AA^\mathrm{T})$的m个特征值和对应的m个特征向量u了。<br>将$AA^\mathrm{T}$的所有特征向量组成一个$m\times m$的矩阵𝑈，就是我们 𝑆𝑉𝐷 公式里面的𝑈矩阵了<br>U中每个特征向量叫做A的<strong>左奇异向量</strong></p>
+<script type="math/tex; mode=display">AA^{\mathrm{T}}=(U\Sigma V^{\mathrm{T}})(U\Sigma V^{\mathrm{T}})^{\mathrm{T}}=U(\Sigma\Sigma^{\mathrm{T}})U^{\mathrm{T}}\\
+V^{\mathrm{T}}V=I,\Sigma^{\mathrm{T}}=\Sigma.</script><h5 id="V-矩阵求解"><a href="#V-矩阵求解" class="headerlink" title="$V$矩阵求解"></a>$V$矩阵求解</h5><p>方阵$(A^\mathrm{T}A)$为$n\times n$的一个方阵，进行特征分解，得到的特征值和特征向量满足下式<br>$A^\mathrm{T}Av_i=\lambda_iv_i$<br>得到矩阵$(A^\mathrm{T}A)$的n个特征值和对应的n个特征向量v了。<br>将$A^\mathrm{T}A$的所有特征向量组成一个 n×n的矩阵V，就是我们 SVD公式里面的V矩阵了<br> V中每个特征向量叫做A的<strong>右奇异向量</strong></p>
+<script type="math/tex; mode=display">A^{\mathrm{T}}A=(U\Sigma V^{\mathrm{T}})^{\mathrm{T}}(U\Sigma V^{\mathrm{T}})=V(\Sigma^{\mathrm{T}}\Sigma)V^{\mathrm{T}} \\
+U^{T}U=I,\Sigma^{T}=\Sigma</script><h5 id="Sigma-矩阵求解"><a href="#Sigma-矩阵求解" class="headerlink" title="$\Sigma$矩阵求解"></a>$\Sigma$矩阵求解</h5><p>特征值矩阵等于奇异值矩阵的平方。<br>$\sigma_i=\sqrt{\lambda_i}$<br>可以不用$\sigma_i=\frac{Av_i}{u_i}$来计算奇异值，可以通过求$AA^\mathrm{T}$的特征值取平方根来求奇异值。</p>
+<p>$A=U\Sigma V^{\mathrm{T}}$则$AV=U\Sigma V^{\mathrm{T}}V$<br>由于$V^{\mathrm{T}}V=I$，$AV=U\Sigma$<br>得到$Av_{i}= \sigma_{i}u_{i}$,$\sigma _{i}= Av_{i}/ u_{i}$</p>
+<h4 id="SVD计算案例"><a href="#SVD计算案例" class="headerlink" title="SVD计算案例"></a>SVD计算案例</h4><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036590.png" alt=""><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036591.png" alt=""><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036592.png" alt=""><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036593.png" alt=""></p>
+<h4 id="SVD的近似描述"><a href="#SVD的近似描述" class="headerlink" title="SVD的近似描述"></a>SVD的近似描述</h4><p>SVD分解可以将一个矩阵进行分解，对角矩阵对角线上的特征值递减存放，<br> 且奇异值的减少特别的快，在很多情况下，前 10%甚至 1%的奇异值的和就占了全部的奇异值之和的 99%以上的比例。<br> 对于奇异值，它跟我们特征分解中的特征值类似，<strong>可以用最大的K个的奇异值和对应的左右奇异向量来近似描述矩阵。 </strong></p>
+<p> $A_{m\times n}=U_{m\times m}\Sigma_{m\times n}V_{n\times n}^{\mathrm{T}}\approx U_{m\times k}\Sigma_{k\times k}V_{k\times n}^{\mathrm{T}}$<br>其中K要比n小很多，也就是一个大的矩阵A可以用三个小的矩阵$U_{m\times k},\Sigma_{k\times k},V_{k\times n}$来表示。<br> <img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036594.png" alt=""></p>
+<h3 id="SVD案例"><a href="#SVD案例" class="headerlink" title="SVD案例"></a>SVD案例</h3><p><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036595.png" alt=""></p>
+<h2 id="PCA-主成分分析"><a href="#PCA-主成分分析" class="headerlink" title="PCA(主成分分析)"></a>PCA(主成分分析)</h2><h3 id="基本概念-2"><a href="#基本概念-2" class="headerlink" title="基本概念"></a>基本概念</h3><p>主成分分析(PCA)是一种降维方法，将一个大的特征集转换成一个较小的特征集，这个特征集<strong>仍然包含了原始数据中的大部分信息</strong>，从而降低了原始数据的维数。<br> 减少一个数据集的特征数量自然是以牺牲准确性为代价的，但降维的诀窍是用一点准确性换取简单性。</p>
+<p>主成分分析流程图<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036597.png" alt=""><br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036598.png" alt=""></p>
+<p>PCA的思想很简单——减少数据集的特征数量，同时尽可能地保留信息。<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036599.png" alt=""></p>
+<p>如何得到这些包含最大差异性的主成分方向<br>计算数据矩阵的协方差矩阵<br>计算协方差矩阵的特征值和特征向量<br>选择特征值最大(即方差最大)的K个特征所对应的特征向量组成的矩阵<br>将数据矩阵转换到新的空间中，实现数据特征的降维。</p>
+<h3 id="PCA的两种实现方法"><a href="#PCA的两种实现方法" class="headerlink" title="PCA的两种实现方法"></a>PCA的两种实现方法</h3><p>基于SVD分解协方差矩阵实现PCA算法<br>基于特征值分解协方差矩阵PCA算法</p>
+<h4 id="基于SVD分解协方差矩阵实现PCA算法"><a href="#基于SVD分解协方差矩阵实现PCA算法" class="headerlink" title="基于SVD分解协方差矩阵实现PCA算法"></a>基于SVD分解协方差矩阵实现PCA算法</h4><p>PCA 减少n维到k维<br> 设有m条n维数据，将原始数据按列组成n行m列矩阵X</p>
+<p>第一步 均值归一化<br> 算出所有特征的均值，然后令 $x_{j}=x_{j}-\mu_{j}$$\mu_{j}$是均值<br>如果特征是在不同的数量级上，我们还需要将其除以标准差$\sigma^{2}$<br>第二步 计算协方差矩阵<br>$\Sigma=\frac{1}{m}\sum_{i=1}^{n}\bigl(x^{(i)}\bigr)\bigl(x^{(i)}\bigr)^{\mathrm{T}}$<br>第三步 计算协方差矩阵$\Sigma$的特征矩阵,利用奇异值分解SVD来分解<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036600.png" alt=""></p>
+<h4 id="基于特征值分解协方差矩阵实现PCA算法"><a href="#基于特征值分解协方差矩阵实现PCA算法" class="headerlink" title="基于特征值分解协方差矩阵实现PCA算法"></a>基于特征值分解协方差矩阵实现PCA算法</h4><p>特征值分解矩阵<br>对于矩阵A ，有一组特征向量v ，将这组向量进行正交化单位化，就能得到一组正交单位向量。特征值分解，就是将矩阵𝐴分解为如下式：<br> $A=P\Sigma P^{-1}$<br>其中,P是矩阵A的特征向量组成的矩阵,$\Sigma$是一个对角阵,对角线上的元素就是特征值.<br>对于正交矩阵P,<br>${P}^{-1}=P^{\mathrm{T}}$</p>
+<p>PCA 减少n维到k维<br> 设有m条n维数据，将原始数据按列组成n行m列矩阵X<br>第一步 均值归一化<br> 算出所有特征的均值，然后令 $x_{j}=x_{j}-\mu_{j}$$\mu_{j}$是均值<br>如果特征是在不同的数量级上，我们还需要将其除以标准差$\sigma^{2}$<br>第二步 计算协方差矩阵<br>$\Sigma=\frac{1}{m}\sum_{i=1}^{n}\bigl(x^{(i)}\bigr)\bigl(x^{(i)}\bigr)^{\mathrm{T}}$<br>第三步 用特征值分解方法计算协方差矩阵$\Sigma$的特征值和特征向量<br>第四步 对特征值从大到小排序，选择其中最大的K个。然后将其对应的K个特征向量分别作为行向量组成特征向量矩阵P<br>第五步 将数据转换到K个特征向量构建的新空间中，即$Y=PX$</p>
+<h3 id="PCA的算法案例"><a href="#PCA的算法案例" class="headerlink" title="PCA的算法案例"></a>PCA的算法案例</h3><script type="math/tex; mode=display">X=\begin{pmatrix}
+-1&&-1&&0&&2&&0\\
+-2&&0&&0&&1&&1\\
+\end{pmatrix}</script><p>用PCA的方法将这组二维数据降到一维<br>第一步 均值归一化<br>这个矩阵的每行已经是零均值.<br>第二步 求协方差矩阵</p>
+<script type="math/tex; mode=display">\Sigma=\frac{1}{5}
+\begin{pmatrix}-1&-1&0&2&0\\
+-2&0&0&1&1
+\end{pmatrix}
+\begin{pmatrix}-1&-2\\
+-1&0\\
+0&0\\
+2&1\\
+0&1
+\end{pmatrix}=\begin{pmatrix}\frac{6}{5}&\frac{4}{5}\\
+\frac{4}{5}&\frac{6}{5}\end{pmatrix}</script><p>第三步 求协方差矩阵的特征值和特征向量</p>
+<script type="math/tex; mode=display">|A-\lambda E|=\begin{vmatrix}\frac{6}{5}-\lambda&\frac{4}{5}\\
+\frac{4}{5}&\frac{6}{5}-\lambda\end{vmatrix}=(\frac{6}{5}-\lambda)^{2}-\frac{16}{25}=(\lambda-2)(\lambda-2/5)=0</script><script type="math/tex; mode=display">\lambda_{1}=2,\lambda_{2}=2/5</script><script type="math/tex; mode=display">\Sigma_{1}\binom{1}{1},\Sigma_{2}\binom{-1}{1}</script><p>标准化后的特征向量</p>
+<script type="math/tex; mode=display">\begin{pmatrix}1/\sqrt{2}\\
+1/\sqrt{2}\end{pmatrix},\begin{pmatrix}-1/\sqrt{2}\\
+1/\sqrt{2}\end{pmatrix}</script><p>矩阵P是  </p>
+<script type="math/tex; mode=display">P=\begin{pmatrix}1/\sqrt{2}&1/\sqrt{2}\\
+-1/\sqrt{2}&1/\sqrt{2}\end{pmatrix}</script><p>验证协方差矩阵$\Sigma$的对角化</p>
+<script type="math/tex; mode=display">P\Sigma P^\mathrm{T}=\begin{pmatrix}1/\sqrt{2}&1/\sqrt{2}\\
+-1/\sqrt{2}&1/\sqrt{2}\end{pmatrix}\begin{pmatrix}6/5&4/5\\
+4/5&6/5\end{pmatrix}\begin{pmatrix}1/\sqrt{2}&-1/\sqrt{2}\\
+1/\sqrt{2}&1/\sqrt{2}\end{pmatrix}=\begin{pmatrix}2&0\\
+0&2/5\end{pmatrix}</script><p>用P的第一行乘以数据矩阵,得到降维后的数据表示</p>
+<script type="math/tex; mode=display">Y=(1/\sqrt{2}\quad1/\sqrt{2})\begin{pmatrix}-1&-1&0&2&0\\
+-2&0&0&1&1\end{pmatrix}=\begin{pmatrix}-3/\sqrt{2}&-1/\sqrt{2}&0&3/\sqrt{2}&-1/\sqrt{2}\end{pmatrix}</script><p>降维后的投影结果图<br><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/202406102036601.png" alt=""></p>
+<h3 id="PCA的优缺点"><a href="#PCA的优缺点" class="headerlink" title="PCA的优缺点"></a>PCA的优缺点</h3><p>优点<br>1 仅仅需要以方差衡量信息量,不受数据集以外的因素影响<br>2 各主成分之间正交,可消除原始数据成分间的相互影响的因素<br>3 计算方法简单,主要运算时特征值分解,易于实现<br>4 它是无监督学习,完全无参数限制的 </p>
+<p>缺点<br>1 主成分各个特征维度的含义具有一定的模糊性,不如原始样本特征的解释性强<br>2 方差小的非主成分也可能含有对样本差异的重要信息,因降维丢弃可能对后续数据处理有影响 </p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>机器学习 聚类和降维</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://www.tangwan16.cn/2024/06/07/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0-%E8%81%9A%E7%B1%BB%E5%92%8C%E9%99%8D%E7%BB%B4/">http://www.tangwan16.cn/2024/06/07/机器学习 无监督学习-聚类和降维/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>buwan</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2024-06-07</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2024-06-11</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0-%E8%81%9A%E7%B1%BB-%E9%99%8D%E7%BB%B4/">机器学习 聚类 降维</a></div><div class="post_share"><div class="social-share" data-image="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img33.jpg" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://lib.baomitu.com/social-share.js/1.0.16/css/share.min.css" media="print" onload="this.media='all'"><script src="https://lib.baomitu.com/social-share.js/1.0.16/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2024/06/06/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" title="机器学习 支持向量机"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img33.jpg" onerror="onerror=null;src='/null'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">机器学习 支持向量机</div></div></a></div><div class="next-post pull-right"><a href="/2024/06/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%80%E4%BB%8B/" title="机器学习 神经网络简介"><img class="cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" onerror="onerror=null;src='/null'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习 神经网络简介</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/avatar.jpg" onerror="this.onerror=null;this.src='/null'" alt="avatar"/></div><div class="author-info__name">buwan</div><div class="author-info__description">莫道桑榆晚，为霞尚漫天</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">44</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">34</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/tangwan16"><i></i><span>🛴前往小家...</span></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/tangwan16" target="_blank" title="github"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-GitHub"></use></svg></a><a class="social-icon faa-parent animated-hover" href="https://leetcode.cn/u/bai-zi-yi-hao/" target="_blank" title="leetcode"><svg class="icon faa-tada" aria-hidden="true"><use xlink:href="#icon-leetcode1"></use></svg></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">无监督学习概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E5%92%8C%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.</span> <span class="toc-text">监督学习和无监督学习的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E7%9A%84%E6%97%A0%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.</span> <span class="toc-text">主要的无监督学习方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">聚类</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#K-means%E8%81%9A%E7%B1%BB"><span class="toc-number">2.</span> <span class="toc-text">K-means聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB%E7%9A%84%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="toc-number">2.1.</span> <span class="toc-text">聚类的背景知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K-means%E7%AE%97%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="toc-number">2.2.</span> <span class="toc-text">K-means算法概述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K-means%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="toc-number">2.3.</span> <span class="toc-text">K-means算法流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K%E5%80%BC%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">2.4.</span> <span class="toc-text">K值的选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#K-means%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">2.5.</span> <span class="toc-text">K-means的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AF%86%E5%BA%A6%E8%81%9A%E7%B1%BB%E4%B8%8E%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB"><span class="toc-number">3.</span> <span class="toc-text">密度聚类与层次聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%86%E5%BA%A6%E8%81%9A%E7%B1%BB-DBSCAN"><span class="toc-number">3.1.</span> <span class="toc-text">密度聚类-DBSCAN</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DBSCAN%E6%A6%82%E8%BF%B0"><span class="toc-number">3.1.1.</span> <span class="toc-text">DBSCAN概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DBSCAN%E4%BD%BF%E7%94%A8%E4%B8%A4%E4%B8%AA%E8%B6%85%E5%8F%82%E6%95%B0"><span class="toc-number">3.1.2.</span> <span class="toc-text">DBSCAN使用两个超参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DBSCAN%E7%9A%84%E4%B8%89%E7%B1%BB%E6%95%B0%E6%8D%AE%E7%82%B9"><span class="toc-number">3.1.3.</span> <span class="toc-text">DBSCAN的三类数据点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DBSCAN%E5%AF%86%E5%BA%A6%E8%81%9A%E7%B1%BB%E7%9A%84%E7%AE%97%E6%B3%95%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.4.</span> <span class="toc-text">DBSCAN密度聚类的算法流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#DBSCAN%E7%9A%84%E8%B6%85%E5%8F%82%E6%95%B0"><span class="toc-number">3.1.5.</span> <span class="toc-text">DBSCAN的超参数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%82%E6%AC%A1%E8%81%9A%E7%B1%BB"><span class="toc-number">3.2.</span> <span class="toc-text">层次聚类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%81%9A%E5%90%88%E8%81%9A%E7%B1%BB"><span class="toc-number">3.2.1.</span> <span class="toc-text">聚合聚类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E8%A3%82%E8%81%9A%E7%B1%BB"><span class="toc-number">3.2.2.</span> <span class="toc-text">分裂聚类</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%81%9A%E7%B1%BB%E7%9A%84%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87"><span class="toc-number">4.</span> <span class="toc-text">聚类的评价指标</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9D%87%E4%B8%80%E6%80%A7"><span class="toc-number">4.0.1.</span> <span class="toc-text">均一性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">4.0.2.</span> <span class="toc-text">完整性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#V-measure"><span class="toc-number">4.0.3.</span> <span class="toc-text">V-measure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BD%AE%E5%BB%93%E7%B3%BB%E6%95%B0"><span class="toc-number">4.0.4.</span> <span class="toc-text">轮廓系数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%8D%E7%BB%B4%E6%A6%82%E8%BF%B0"><span class="toc-number">5.</span> <span class="toc-text">降维概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">5.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%B4%E6%95%B0%E7%81%BE%E9%9A%BE"><span class="toc-number">5.1.1.</span> <span class="toc-text">维数灾难</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%99%8D%E7%BB%B4"><span class="toc-number">5.1.2.</span> <span class="toc-text">什么是降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E9%99%8D%E7%BB%B4"><span class="toc-number">5.1.3.</span> <span class="toc-text">为什么要降维</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%99%8D%E7%BB%B4%E7%9A%84%E4%B8%BB%E8%A6%81%E4%BD%9C%E7%94%A8"><span class="toc-number">5.1.4.</span> <span class="toc-text">降维的主要作用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96"><span class="toc-number">5.2.</span> <span class="toc-text">数据可视化</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#t-SNE-t-distributed-Stochatstic-Neighbor-Embedding"><span class="toc-number">5.2.1.</span> <span class="toc-text">t-SNE(t-distributed Stochatstic Neighbor Embedding)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%8B%A5%E6%8C%A4%E7%8E%B0%E8%B1%A1"><span class="toc-number">5.2.2.</span> <span class="toc-text">拥挤现象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#t-SNE%E7%AE%97%E6%B3%95%E7%BC%BA%E7%82%B9"><span class="toc-number">5.2.3.</span> <span class="toc-text">t-SNE算法缺点</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%AA%E8%83%BD%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E4%B8%8D%E7%94%A8%E4%BA%8E%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2"><span class="toc-number">5.2.3.1.</span> <span class="toc-text">只能可视化，不用于数据转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BF%87%E4%BA%8E%E9%AB%98%E7%BB%B4%E4%B8%80%E8%88%AC%E4%B8%8D%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8"><span class="toc-number">5.2.3.2.</span> <span class="toc-text">过于高维一般不直接使用</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%99%8D%E7%BB%B4%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">5.3.</span> <span class="toc-text">降维的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SVD-%E5%A5%87%E5%BC%82%E5%80%BC%E5%88%86%E8%A7%A3"><span class="toc-number">6.</span> <span class="toc-text">SVD(奇异值分解)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-1"><span class="toc-number">6.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SVD%E6%A6%82%E8%BF%B0"><span class="toc-number">6.1.1.</span> <span class="toc-text">SVD概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SVD%E6%B1%82%E8%A7%A3"><span class="toc-number">6.1.2.</span> <span class="toc-text">SVD求解</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#U-%E7%9F%A9%E9%98%B5%E6%B1%82%E8%A7%A3"><span class="toc-number">6.1.2.1.</span> <span class="toc-text">$U$矩阵求解</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#V-%E7%9F%A9%E9%98%B5%E6%B1%82%E8%A7%A3"><span class="toc-number">6.1.2.2.</span> <span class="toc-text">$V$矩阵求解</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Sigma-%E7%9F%A9%E9%98%B5%E6%B1%82%E8%A7%A3"><span class="toc-number">6.1.2.3.</span> <span class="toc-text">$\Sigma$矩阵求解</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SVD%E8%AE%A1%E7%AE%97%E6%A1%88%E4%BE%8B"><span class="toc-number">6.1.3.</span> <span class="toc-text">SVD计算案例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SVD%E7%9A%84%E8%BF%91%E4%BC%BC%E6%8F%8F%E8%BF%B0"><span class="toc-number">6.1.4.</span> <span class="toc-text">SVD的近似描述</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SVD%E6%A1%88%E4%BE%8B"><span class="toc-number">6.2.</span> <span class="toc-text">SVD案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PCA-%E4%B8%BB%E6%88%90%E5%88%86%E5%88%86%E6%9E%90"><span class="toc-number">7.</span> <span class="toc-text">PCA(主成分分析)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5-2"><span class="toc-number">7.1.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCA%E7%9A%84%E4%B8%A4%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%B3%95"><span class="toc-number">7.2.</span> <span class="toc-text">PCA的两种实现方法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ESVD%E5%88%86%E8%A7%A3%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E5%AE%9E%E7%8E%B0PCA%E7%AE%97%E6%B3%95"><span class="toc-number">7.2.1.</span> <span class="toc-text">基于SVD分解协方差矩阵实现PCA算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E7%89%B9%E5%BE%81%E5%80%BC%E5%88%86%E8%A7%A3%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E5%AE%9E%E7%8E%B0PCA%E7%AE%97%E6%B3%95"><span class="toc-number">7.2.2.</span> <span class="toc-text">基于特征值分解协方差矩阵实现PCA算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCA%E7%9A%84%E7%AE%97%E6%B3%95%E6%A1%88%E4%BE%8B"><span class="toc-number">7.3.</span> <span class="toc-text">PCA的算法案例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PCA%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">7.4.</span> <span class="toc-text">PCA的优缺点</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/" title="机器学习 卷积神经网络CNN"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img24.jpg" onerror="this.onerror=null;this.src='/null'" alt="机器学习 卷积神经网络CNN"/></a><div class="content"><a class="title" href="/2024/06/10/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9CCNN%E5%8F%8A%E5%85%B6%E5%BA%94%E7%94%A8/" title="机器学习 卷积神经网络CNN">机器学习 卷积神经网络CNN</a><time datetime="2024-06-11T14:34:27.699Z" title="更新于 2024-06-11 22:34:27">2024-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%80%E4%BB%8B/" title="机器学习 神经网络简介"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" onerror="this.onerror=null;this.src='/null'" alt="机器学习 神经网络简介"/></a><div class="content"><a class="title" href="/2024/06/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%AE%80%E4%BB%8B/" title="机器学习 神经网络简介">机器学习 神经网络简介</a><time datetime="2024-06-11T14:29:10.028Z" title="更新于 2024-06-11 22:29:10">2024-06-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/06/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/" title="机器学习 回归分析"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" onerror="this.onerror=null;this.src='/null'" alt="机器学习 回归分析"/></a><div class="content"><a class="title" href="/2024/06/02/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%20%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90/" title="机器学习 回归分析">机器学习 回归分析</a><time datetime="2024-06-11T14:20:58.046Z" title="更新于 2024-06-11 22:20:58">2024-06-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div id="ft"><div class="ft-item-1"><div class="t-top"><div class="t-t-l"><p class="ft-t t-l-t">格言🧬</p><div class="bg-ad"><div>莫道桑榆晚，为霞尚满天✨</div><div class="btn-xz-box"><a class="btn-xz" href="">跳转哪个网站呢</a></div></div></div><div class="t-t-r"><p class="ft-t t-l-t">猜你想看💡</p><ul class="ft-links"><li><a href="/comments/">留点什么</a><a href="/archives/">文章归档</a></li><li><a href="/link/">我的朋友</a><a href="/comments/">留点什么</a></li><li><a href="/categories/">文章分类</a><a href="/tags/">文章标签</a></li></ul></div></div></div><div class="ft-item-2"><p class="ft-t">推荐友链⌛</p><div class="ft-img-group"><div class="img-group-item"><a target="_blank" rel="noopener" href="https://www.fomal.cc/" title="Fomalhaut🥝"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://sourcebucket.s3.bitiful.net/img/avatar.webp" alt=""/></a></div><div class="img-group-item"><a target="_blank" rel="noopener" href="https://akilar.top/" title="Akilarの糖果屋"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://npm.elemecdn.com/akiblog@1.0.2/img/author.webp" alt=""/></a></div></div></div></div></div><div id="footer-wrap"><div class="copyright">&copy;2024 By buwan</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.33/fancybox/fancybox.umd.min.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/instant.page/5.1.0/instantpage.min.js" type="module"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/vanilla-lazyload/17.3.1/lazyload.iife.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      tags: 'ams'
+    },
+    chtml: {
+      scale: 1.1
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, '']
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typesetPromise()
+}</script><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script defer src="/js/cursor.js"></script><script async src="//at.alicdn.com/t/c/font_4485108_0s6cns6pdfac.js"></script><script src="https://lib.baomitu.com/pjax/0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener
+  btf.removeGlobalFnEvent('pjax')
+  btf.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="http://www.tangwan16.cn/categories/建站教程/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 不晚の魔改教程 (1)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.tangwan16.cn/categories/生活趣闻/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 不晚の专业课 (7)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.tangwan16.cn/categories/前端学习/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">👩‍💻 不晚の前端学习 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.tangwan16.cn/categories/后端学习/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">👩‍💻 不晚の后端学习 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.tangwan16.cn/categories/机器学习/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📒 不晚の机器学习 (12)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="http://www.tangwan16.cn/categories/编程学习/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">💡 不晚の算法学习 (20)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="http://www.tangwan16.cn/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(33.333333333333336% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><p id="ghbdages"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" data-title="博客框架为Hexo_v7.1.1" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" data-title="主题版本Butterfly_v4.13.0" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" data-title="本站采用多线部署，主线路托管于Vercel" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" data-title="本站项目由Github托管" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" data-title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可" title=""><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></p>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="/js/runtime.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/21/C++ 概论/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img22.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-21</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/21/C++ 概论/&quot;);" href="javascript:void(0);" alt="">C++ 概论</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/21/C++ 概论/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/21/AcWing 归并排序/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img29.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-21</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/21/AcWing 归并排序/&quot;);" href="javascript:void(0);" alt="">AcWing 归并排序</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/21/AcWing 归并排序/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/19/第五章_栈与队列_part02/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img22.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/19/第五章_栈与队列_part02/&quot;);" href="javascript:void(0);" alt="">第五章_栈与队列_part02</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/19/第五章_栈与队列_part02/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/21/AcWing 快排与快速选择/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img24.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-21</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/21/AcWing 快排与快速选择/&quot;);" href="javascript:void(0);" alt="">AcWing 快排与快速选择</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/21/AcWing 快排与快速选择/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/22/AcWing 二分/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img29.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-22</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/22/AcWing 二分/&quot;);" href="javascript:void(0);" alt="">AcWing 二分</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/22/AcWing 二分/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/19/第五章_栈与队列_part01/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/19/第五章_栈与队列_part01/&quot;);" href="javascript:void(0);" alt="">第五章_栈与队列_part01</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/19/第五章_栈与队列_part01/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/19/第四章_字符串_part02/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img29.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-19</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/19/第四章_字符串_part02/&quot;);" href="javascript:void(0);" alt="">第四章_字符串_part02</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/19/第四章_字符串_part02/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/03/23/pinia/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img33.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-03-23</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/03/23/pinia/&quot;);" href="javascript:void(0);" alt="">pinia的部署与使用</a><div class="blog-slider__text">pinia</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/03/23/pinia/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/15/第四章_字符串_part01/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-15</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/15/第四章_字符串_part01/&quot;);" href="javascript:void(0);" alt="">第四章_字符串_part01</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/15/第四章_字符串_part01/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/14/第三章_哈希表_part02/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img22.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-14</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/14/第三章_哈希表_part02/&quot;);" href="javascript:void(0);" alt="">第三章_哈希表_part02</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/14/第三章_哈希表_part02/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/04/11/数据挖掘之数据库/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-04-11</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/04/11/数据挖掘之数据库/&quot;);" href="javascript:void(0);" alt="">数据挖掘 数据库</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/04/11/数据挖掘之数据库/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/10/第二章_链表_part02/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img16.png" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-10</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/10/第二章_链表_part02/&quot;);" href="javascript:void(0);" alt="">第二章_链表_part02</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/10/第二章_链表_part02/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/05/13/第三章_哈希表_part01/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img24.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-05-13</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/05/13/第三章_哈希表_part01/&quot;);" href="javascript:void(0);" alt="">第三章_哈希表_part01</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/05/13/第三章_哈希表_part01/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" onclick="pjax.loadUrl(&quot;2024/04/09/数据挖掘之数据获取/&quot;);" href="javascript:void(0);" alt=""><img width="48" height="48" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://hexo-tangwan16-pic.oss-cn-shanghai.aliyuncs.com/top_img24.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2024-04-09</span><a class="blog-slider__title" onclick="pjax.loadUrl(&quot;2024/04/09/数据挖掘之数据获取/&quot;);" href="javascript:void(0);" alt="">数据挖掘 数据获取</a><div class="blog-slider__text">再怎么看我也不知道怎么描述它的啦！</div><a class="blog-slider__button" onclick="pjax.loadUrl(&quot;2024/04/09/数据挖掘之数据获取/&quot;);" href="javascript:void(0);" alt="">详情       </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '2s');
+    arr[i].setAttribute('data-wow-delay', '1s');
+    arr[i].setAttribute('data-wow-offset', '100');
+    arr[i].setAttribute('data-wow-iteration', '1');
+  }</script><script async="async">var arr = document.getElementsByClassName('card-widget');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><!-- hexo injector body_end end --></body></html>
